@@ -28,7 +28,6 @@ public class TestServletContextListenser implements ServletContextListener {
 
     private static final String ATTR_NAME = "totalCount";
 
-    @Override
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("----TestServletContextListenser contextInitialized----");
         ServletContext servletContext = sce.getServletContext();
@@ -52,7 +51,6 @@ public class TestServletContextListenser implements ServletContextListener {
         }
     }
 
-    @Override
     public void contextDestroyed(ServletContextEvent sce) {
         System.out.println("---TestServletContextListenser contextDestroyed");
         ServletContext servletContext = sce.getServletContext();

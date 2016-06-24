@@ -15,15 +15,29 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+        <!--springMVC-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>3.1.2.RELEASE</version>
         </dependency>
+        <!--servlet核心类-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.4</version>
+        </dependency>
+        <!--采用slf4j作为日志框架-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+        <!--slf4j必须绑定一个日志框,采用logback-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.7</version>
         </dependency>
     </dependencies>
     <build>
