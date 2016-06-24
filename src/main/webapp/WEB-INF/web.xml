@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>springdemo</display-name>
+
+    <!--springMVC 的servet-->
+    <servlet>
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>WEB-INF/springmvc-servlet.xml</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--FirstServlet-->
+    <servlet>
+        <servlet-name>firstServlet</servlet-name>
+        <servlet-class>com.jerry.servlet.FirstServlet</servlet-class>
+        <!--web容器启动的时候启动,默认不配置的时候是第一次使用这个servlet的时候才初始化-->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>firstServlet</servlet-name>
+        <url-pattern>/firstServlet</url-pattern>
+    </servlet-mapping>
+
+    <!--SecondServlet-->
+    <servlet>
+        <servlet-name>secondServlet</servlet-name>
+        <servlet-class>com.jerry.servlet.SecondServlet</servlet-class>
+        <!--<load-on-startup>1</load-on-startup>-->
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>secondServlet</servlet-name>
+        <url-pattern>/secondServlet</url-pattern>
+    </servlet-mapping>
+    
+    <!--FirstFilter-->
+    <filter>
+        <filter-name>firstFilter</filter-name>
+        <filter-class>com.jerry.filter.FirstFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>firstFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--SecondFilter-->
+    <filter>
+        <filter-name>secondFilter</filter-name>
+        <filter-class>com.jerry.filter.SecondFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>secondFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--listener-->
+    <listener>
+        <listener-class>com.jerry.listener.TestServletContextListenser</listener-class>
+    </listener>
+    
+    <listener>
+        <listener-class>com.jerry.listener.TestHttpSessionListener</listener-class>
+    </listener>
+
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
+
+
+    <!--如果不配置welcome-file-list默认主页是index.jsp-->
+    <welcome-file-list>
+        <welcome-file>yes.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
