@@ -65,10 +65,12 @@
 
     <!--listener-->
     <listener>
+        <!--容器serveltcontext发生变化时触发,启动或者关闭时-->
         <listener-class>com.jerry.listener.TestServletContextListenser</listener-class>
     </listener>
     
     <listener>
+        <!--测试httpSession的创建和销毁动作,用来统计在线人数-->
         <listener-class>com.jerry.listener.TestHttpSessionListener</listener-class>
     </listener>
 
