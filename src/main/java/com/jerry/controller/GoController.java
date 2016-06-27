@@ -22,8 +22,8 @@ public class GoController implements EnvironmentAware {
 
     private static final Logger logger = LoggerFactory.getLogger(GoController.class);
 
-//    @Autowired
-//    private UserManager userManager;
+    @Autowired
+    private UserManager userManager;
 
     @RequestMapping(value = "/", method = RequestMethod.HEAD)
     public String head() {
@@ -33,8 +33,8 @@ public class GoController implements EnvironmentAware {
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
         logger.info("let's go go go !!!");
-//        userManager.doPrint();
-        model.addAttribute("msg", "go go go");
+        userManager.doPrint();
+        model.addAttribute("msg", "index, index page");
         return "go";
     }
 
