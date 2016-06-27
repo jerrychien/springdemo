@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
     <display-name>springdemo</display-name>
-
+    
     <!--springMVC 的servet-->
     <servlet>
         <servlet-name>springmvc</servlet-name>
@@ -74,10 +74,22 @@
         <listener-class>com.jerry.listener.TestHttpSessionListener</listener-class>
     </listener>
 
+    <!--ContextLoaderListener监听器的作用就是启动Web容器时，自动装配ApplicationContext的配置信息。
+    因为它实现了ServletContextListener这个接口，在web.xml配置这个监听器，启动容器时，就会默认执行它实现的方法。-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--要想加载spring的application配置文件,需要配置contextLoaderListener,这样才会装配ApplicationContext-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/applicationContext*.xml</param-value>
+    </context-param>
+
+    <!--设置httpsession的过期时间为1分钟,默认为30分钟-->
     <session-config>
         <session-timeout>1</session-timeout>
     </session-config>
-
 
     <!--如果不配置welcome-file-list默认主页是index.jsp-->
     <welcome-file-list>
