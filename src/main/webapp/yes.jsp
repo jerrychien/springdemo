@@ -11,7 +11,7 @@
     <title>yes</title>
 </head>
 <body>
-<h1>this is yes.jsp</h1>
+<h1>默认首页yes.jsp</h1>
 <jsp:include page="/WEB-INF/jsp/inc/online.jsp"/>
 </body>
 </html>

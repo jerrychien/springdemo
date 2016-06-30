@@ -39,6 +39,12 @@
             <artifactId>logback-classic</artifactId>
             <version>1.1.7</version>
         </dependency>
+        <!--著名的装饰器-->
+        <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>sitemesh</artifactId>
+            <version>2.4.2</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>springdemo</finalName>

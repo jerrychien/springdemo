@@ -8,13 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>this is go jsp</title>
+    <title>go</title>
 </head>
 <body>
-<h1>this is go.jsp</h1>
-go go go
-
-<br/>
-<jsp:include page="inc/online.jsp"/>
+<div class="row">
+    <h1>/,/index 对应页面</h1>
+    <br/>
+    <jsp:include page="inc/online.jsp"/>
+</div>
 </body>
 </html>

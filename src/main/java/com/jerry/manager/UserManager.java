@@ -1,7 +1,7 @@
 package com.jerry.manager;
 
 /**
- * @author ${user}
+ * @author jerrychien
  * @create 2016-06-24 18:48
  */
 public interface UserManager {

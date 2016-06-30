@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
     <display-name>springdemo</display-name>
-    
+
     <!--springMVC 的servet-->
     <servlet>
         <servlet-name>springmvc</servlet-name>
@@ -26,7 +26,7 @@
         <!--web容器启动的时候启动,默认不配置的时候是第一次使用这个servlet的时候才初始化-->
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>firstServlet</servlet-name>
         <url-pattern>/firstServlet</url-pattern>
@@ -42,7 +42,7 @@
         <servlet-name>secondServlet</servlet-name>
         <url-pattern>/secondServlet</url-pattern>
     </servlet-mapping>
-    
+
     <!--FirstFilter-->
     <filter>
         <filter-name>firstFilter</filter-name>
@@ -63,12 +63,23 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- 增加对sitemesh的支持 -->
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class> com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!--listener-->
     <listener>
         <!--容器serveltcontext发生变化时触发,启动或者关闭时-->
         <listener-class>com.jerry.listener.TestServletContextListenser</listener-class>
     </listener>
-    
+
     <listener>
         <!--测试httpSession的创建和销毁动作,用来统计在线人数-->
         <listener-class>com.jerry.listener.TestHttpSessionListener</listener-class>
@@ -81,6 +92,7 @@
     </listener>
 
     <!--要想加载spring的application配置文件,需要配置contextLoaderListener,这样才会装配ApplicationContext-->
+    <!--如果在web.xml中不写任何参数配置信息，默认的路径是/WEB-INF/applicationContext.xml，在WEB-INF目录下创建的xml文件的名称必须是applicationContext.xml-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>WEB-INF/applicationContext*.xml</param-value>

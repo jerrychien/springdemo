@@ -1,0 +1,12 @@
+<decorators defaultdir="/WEB-INF/sitemesh">
+	<excludes>
+		<pattern>/login</pattern>
+		<pattern>/WEB-INF/jsp/error/*</pattern>
+		<pattern>*.js</pattern>
+		<pattern>*.css</pattern>
+		<pattern>*.jspf</pattern>
+	</excludes>
+	<decorator name="default" page="decorator.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+</decorators>

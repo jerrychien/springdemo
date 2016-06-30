@@ -30,9 +30,16 @@ public class GoController implements EnvironmentAware {
         return "go";
     }
 
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
         logger.info("let's go go go !!!");
+//        slf4j中占位符的使用
+        logger.info("hi, {} is speaking {}", "jerryChien", "\"what the shit!\"");
         userManager.doPrint();
         model.addAttribute("msg", "index, index page");
         return "go";
