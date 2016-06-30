@@ -29,6 +29,7 @@ public class Server {
             server = new ServerSocket(PORT);
             System.out.println("[server started]");
             mExecutorService = Executors.newCachedThreadPool();
+            //心跳检测
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -113,6 +114,7 @@ public class Server {
                         }
                     }
                     if (socket.isClosed()) {
+                        this.closeSocket();
                         break;
                     }
                 } catch (IOException e) {
@@ -120,9 +122,11 @@ public class Server {
                     e.printStackTrace();
                 }
             }
+            System.out.println("thread over");
         }
 
         private void closeSocket() {
+            System.out.println("客户端关闭,循环结束");
             try {
                 bufferedReader.close();
                 printWriter.flush();
