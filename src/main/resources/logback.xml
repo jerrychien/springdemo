@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="LOG_HOME" value="/web/resin/logs/springdemo"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>\(%d{HH:mm:ss.SSS} [%thread]\) [%-5level] [%logger{32}] [%M-%L] - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <!--如果logger的level不配置,则参考root的level-->
+    <!--如果logger的additivity不配置,默认为true-->
+    <!-- 
+  	<logger name="com.ibatis" level="DEBUG" additivity="true">
+	</logger>
+	<logger name="java.sql.Connection" level="DEBUG" additivity="true">
+	</logger>
+	<logger name="java.sql.PreparedStatement" level="DEBUG"
+		additivity="true">
+	</logger>
+	 -->
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
