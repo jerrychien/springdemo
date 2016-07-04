@@ -1,5 +1,8 @@
 package com.jerry.servlet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,23 +19,25 @@ import java.io.PrintWriter;
  */
 public class FirstServlet extends HttpServlet {
 
+    private static final Logger logger = LoggerFactory.getLogger(FirstServlet.class);
+
     // private ServletConfig config;
 
     @Override
     public void init() throws ServletException {
-        System.out.println("--firstServlet init--");
+        logger.debug("--firstServlet init--");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        System.out.println("--firstServlet doPost--");
+        logger.debug("--firstServlet doPost--");
         resp.setContentType("text/html");
 
         String type = req.getParameter("type");
         type = type == null ? "1" : type;
         if (type.equalsIgnoreCase("1")) {
-            System.out.println("--doPost--");
+            logger.info("--doPost--");
             PrintWriter writer = resp.getWriter();
             writer.write("<html><head>");
             writer.write("<title>");
@@ -43,7 +48,7 @@ public class FirstServlet extends HttpServlet {
             writer.write("</html>");
             writer.flush();
             writer.close();
-            System.out.println(this.getServletContext().getServletContextName());
+            logger.info(this.getServletContext().getServletContextName());
         } else if (type.equalsIgnoreCase("2")) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/secondServlet");
             dispatcher.forward(req, resp);
@@ -55,12 +60,12 @@ public class FirstServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        System.out.println("--firstServlet doGet--");
+        logger.debug("--firstServlet doGet--");
         doPost(req, resp);
     }
 
     @Override
     public void destroy() {
-        System.out.println("first servelt destory");
+        logger.debug("first servelt destory");
     }
 }

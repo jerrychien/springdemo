@@ -1,5 +1,8 @@
 package com.jerry.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,24 +21,26 @@ import java.io.IOException;
  */
 public class SecondFilter implements Filter {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecondFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("--SecondFilter init--");
+        logger.debug("--SecondFilter init--");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("--SecondFilter doFilter start--");
+        logger.info("--SecondFilter doFilter start--");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-//        System.out.println(req.getRequestURL());
-//        System.out.println(req.getContextPath());
+//        logger.info(req.getRequestURL());
+//        logger.info(req.getContextPath());
         chain.doFilter(req, resp);
-        System.out.println("--SecondFilter over--");
+        logger.info("--SecondFilter over--");
     }
 
     @Override
     public void destroy() {
-        System.out.println("--SecondFilter destory--");
+        logger.debug("--SecondFilter destory--");
     }
 }

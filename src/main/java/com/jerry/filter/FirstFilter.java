@@ -1,5 +1,8 @@
 package com.jerry.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,24 +21,34 @@ import java.io.IOException;
  */
 public class FirstFilter implements Filter {
 
+    private static final Logger logger = LoggerFactory.getLogger(FirstFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("--firstFilter init--");
+
+        logger.trace("======trace");
+        logger.debug("======debug");
+        logger.info("======info");
+        logger.warn("======warn");
+        logger.error("======error");
+
+
+        logger.debug("--firstFilter init--");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("--firstFilter doFilter start--");
+        logger.info("--firstFilter doFilter start--");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-//        System.out.println(req.getRequestURL());
-//        System.out.println(req.getContextPath());
+        logger.info(req.getRequestURI());
+        logger.info(req.getContextPath());
         chain.doFilter(req, resp);
-        System.out.println("--firstFilter over--");
+        logger.info("--firstFilter over--");
     }
 
     @Override
     public void destroy() {
-        System.out.println("--firstFilter destory--");
+        logger.debug("--firstFilter destory--");
     }
 }
