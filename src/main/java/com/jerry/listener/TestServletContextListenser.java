@@ -1,5 +1,8 @@
 package com.jerry.listener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -24,12 +27,14 @@ import java.io.IOException;
  */
 public class TestServletContextListenser implements ServletContextListener {
 
+    private static final Logger logger = LoggerFactory.getLogger(TestServletContextListenser.class);
+
     private static final String COUNT_FILE = "/Users/jerrychien/Documents/count.log";
 
     private static final String ATTR_NAME = "totalCount";
 
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("----TestServletContextListenser contextInitialized----");
+        logger.info("----TestServletContextListenser contextInitialized----");
         ServletContext servletContext = sce.getServletContext();
         int count = 1;
         try {
@@ -41,21 +46,21 @@ public class TestServletContextListenser implements ServletContextListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("get count:" + count);
+        logger.info("get count: " + count);
         servletContext.setAttribute(ATTR_NAME, count);
         try {
             int bb = (Integer) servletContext.getAttribute(ATTR_NAME) + 1;
-            System.out.println("what the fuck" + bb);
+            logger.info("what the xxx: " + bb);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("---TestServletContextListenser contextDestroyed");
+        logger.info("---TestServletContextListenser contextDestroyed");
         ServletContext servletContext = sce.getServletContext();
         int count = (Integer) servletContext.getAttribute(ATTR_NAME) + 1;
-        System.out.println("save count:" + count);
+        logger.info("save count:" + count);
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File(COUNT_FILE)));
             writer.write(String.valueOf(count));
