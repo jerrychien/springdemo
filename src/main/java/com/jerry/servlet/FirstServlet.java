@@ -1,7 +1,6 @@
 package com.jerry.servlet;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +16,11 @@ import java.io.PrintWriter;
  */
 public class FirstServlet extends HttpServlet {
 
-    private ServletConfig config;
+    // private ServletConfig config;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
         System.out.println("--firstServlet init--");
-        this.config = config;
     }
 
     @Override
@@ -45,7 +43,7 @@ public class FirstServlet extends HttpServlet {
             writer.write("</html>");
             writer.flush();
             writer.close();
-            System.out.println(config.getServletContext().getServletContextName());
+            System.out.println(this.getServletContext().getServletContextName());
         } else if (type.equalsIgnoreCase("2")) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/secondServlet");
             dispatcher.forward(req, resp);
