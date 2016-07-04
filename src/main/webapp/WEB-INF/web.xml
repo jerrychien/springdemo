@@ -66,7 +66,7 @@
     <!-- 增加对sitemesh的支持 -->
     <filter>
         <filter-name>sitemesh</filter-name>
-        <filter-class> com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+        <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -76,12 +76,12 @@
 
     <!--listener-->
     <listener>
-        <!--容器serveltcontext发生变化时触发,启动或者关闭时-->
+        <!--容器serveltcontext发生变化时触发,启动或者关闭时,实现了ServletContextListener这个接口-->
         <listener-class>com.jerry.listener.TestServletContextListenser</listener-class>
     </listener>
 
     <listener>
-        <!--测试httpSession的创建和销毁动作,用来统计在线人数-->
+        <!--测试httpSession的创建和销毁动作,用来统计在线人数,实现了HttpSessionListener这个接口-->
         <listener-class>com.jerry.listener.TestHttpSessionListener</listener-class>
     </listener>
 
