@@ -6,10 +6,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.support.StandardServletEnvironment;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * GoController
@@ -49,5 +54,16 @@ public class GoController implements EnvironmentAware {
 
     public void setEnvironment(Environment environment) {
         this.environment = environment;
+        StandardServletEnvironment standardServletEnvironment = (StandardServletEnvironment) environment;
+        PropertySource propertySource = standardServletEnvironment.getPropertySources().get("systemProperties");
+        Map<String, String> map = (Map<String, String>) propertySource.getSource();
+        logger.info("map:" + map);
+        logger.info("environment:" + environment);
+        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            logger.info(entry.getKey() + ":" + entry.getValue());
+        }
+
     }
 }
