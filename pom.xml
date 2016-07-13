@@ -9,17 +9,30 @@
     <name>springdemo Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <dependencies>
+        <!--junit-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        <!--springMVC-->
+        <!--apache-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <!--springMVC 不支持mvc 拦截器的 不包含 : exclude-mapping -->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-webmvc</artifactId>-->
+        <!--<version>3.2.2.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--使用高版本的支持MVC 拦截器 的不包含标签 : exclude-mapping -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>3.1.2.RELEASE</version>
+            <version>3.2.17.RELEASE</version>
         </dependency>
         <!--servlet核心类-->
         <dependency>
@@ -44,6 +57,22 @@
             <groupId>opensymphony</groupId>
             <artifactId>sitemesh</artifactId>
             <version>2.4.2</version>
+        </dependency>
+        <!-- json 当使用@ResposneBody注解返回对象时,需要加入jackson包,否则:406 Not Acceptable-->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-lgpl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-lgpl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-xc</artifactId>
+            <version>1.9.13</version>
         </dependency>
     </dependencies>
     <build>
