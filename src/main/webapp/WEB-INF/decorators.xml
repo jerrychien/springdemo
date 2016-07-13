@@ -1,6 +1,9 @@
 <decorators defaultdir="/WEB-INF/sitemesh">
 	<excludes>
-		<pattern>/login</pattern>
+		<pattern>/login*</pattern>
+		<pattern>/showArticle</pattern>
+		<pattern>/login1</pattern>
+		<pattern>/loginOut</pattern>
 		<pattern>/WEB-INF/jsp/error/*</pattern>
 		<pattern>*.js</pattern>
 		<pattern>*.css</pattern>
