@@ -9,6 +9,8 @@
 <html>
 <head>
     <title>Article</title>
+    <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 </head>
 <body>
 ${articleTitle}

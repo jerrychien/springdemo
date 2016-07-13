@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>yes</title>
+    <LINK href="/favicon.ico" type="image/x-icon" rel="shortcut icon">
 </head>
 <body>
 <h1>默认首页yes.jsp</h1>

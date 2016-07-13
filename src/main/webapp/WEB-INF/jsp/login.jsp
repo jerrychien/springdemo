@@ -23,6 +23,9 @@
     <!-- Custom Fonts -->
     <link href="../../resources/bower_components/font-awesome/css/font-awesome.min.css"
           rel="stylesheet" type="text/css">
+
+    <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 </head>
 <body>
 <div class="container">
