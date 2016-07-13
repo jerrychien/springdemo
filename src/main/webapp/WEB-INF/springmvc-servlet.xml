@@ -25,6 +25,7 @@
 
     <!--配置资源文件的路径-->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:resources mapping="/favicon.ico" location="/"/>
 
     <!--默认不配置viewResolver,则在路径webapp下的文件,且需要写全文件名称-->
     <!-- Resolves view names to protected .jsp resources within the /WEB-INF/jsp directory -->
