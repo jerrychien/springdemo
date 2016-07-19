@@ -1,19 +1,14 @@
 package com.jerry.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-import java.io.Serializable;
-
 /**
  * 结果对象
  *
  * @author jerrychien
  * @create 2016-07-13 15:36
  */
-public class ResponseResult<T> implements Serializable {
+public class ResponseResult<T> extends BaseObject {
+
+    private static final long serialVersionUID = 2768383983700875569L;
 
     public int code;
 
@@ -57,17 +52,5 @@ public class ResponseResult<T> implements Serializable {
 
     public void setResult(T result) {
         this.result = result;
-    }
-
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
-    public boolean equals(Object o) {
-        return EqualsBuilder.reflectionEquals(this, o);
-    }
-
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
     }
 }
