@@ -16,15 +16,15 @@ public class TestReflect {
             String className = "com.jerry.reflect.ReflectClass";
             Class clazz = Class.forName(className);
 
-            //利用发射获取私有构造方法
+            //利用反射获取私有构造方法
             Constructor constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);//这个必须
             ReflectInterface o = (ReflectInterface) constructor.newInstance();
 
-
             //代码中只定义接口ReflectInterface,具体的实现各自去实现,className从配置文件或者流中读取,做到大大的解耦
 //            ReflectInterface o = (ReflectInterface) clazz.newInstance();
 
+            //public method
             Method noParamMethod = clazz.getMethod("doPrint");
             Method oneIntParamMethod = clazz.getMethod("doPrint", Integer.class);
             Method oneStringParamMethod = clazz.getMethod("doPrint", String.class);
