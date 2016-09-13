@@ -14,9 +14,9 @@ public final class Constants {
 
     private static final Logger logger = LoggerFactory.getLogger(Constants.class);
 
-    private static final String jdbcDriver;
+    public static final String jdbcDriver;
 
-    private static final String jdbcUrl;
+    public static final String jdbcUrl;
 
     private static final PropertiesUtil jdbcProperties = PropertiesUtil.newInstance("/jdbc.properties");
 
