@@ -23,6 +23,8 @@ public class FirstFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(FirstFilter.class);
 
+    private String errorPage;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -32,8 +34,8 @@ public class FirstFilter implements Filter {
         logger.warn("======warn");
         logger.error("======error");
 
-
-        logger.debug("--firstFilter init--");
+        errorPage = filterConfig.getInitParameter("errorPage");
+        logger.debug("--firstFilter init--, errorPage:{}", errorPage);
     }
 
     @Override
@@ -41,9 +43,16 @@ public class FirstFilter implements Filter {
         logger.info("--firstFilter doFilter start--");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
+        req.setAttribute("filter1", "filter1");
         logger.info(req.getRequestURI());
         logger.info(req.getContextPath());
-        chain.doFilter(req, resp);
+        try {
+            chain.doFilter(req, resp);
+        } catch (Exception e) {
+            logger.error("filter1 occure error", e);
+            request.getRequestDispatcher(errorPage).forward(request, response);
+        }
+        logger.info("filter2:{}", req.getAttribute("filter2"));
         logger.info("--firstFilter over--");
     }
 

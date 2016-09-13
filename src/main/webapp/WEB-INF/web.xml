@@ -48,6 +48,10 @@
     <filter>
         <filter-name>firstFilter</filter-name>
         <filter-class>com.jerry.filter.FirstFilter</filter-class>
+        <init-param>
+            <param-name>errorPage</param-name>
+            <param-value>/errorPage.jsp</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>firstFilter</filter-name>
