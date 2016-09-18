@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                          http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+                          http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                          http://www.springframework.org/schema/tx
+        				  http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
     <!-- properties文件 配置 start-->
     <bean id="configProperties"
@@ -29,12 +32,15 @@
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <!-- 等待超时以毫秒为单位，在抛出异常之前，池等待连接被回收的最长时间（当没有可用连接时）。设置为-1表示无限等待。  -->
+        <property name="maxWait" value="100"/>
         <!-- 池启动时创建的连接数量 -->
         <property name="initialSize" value="5"/>
         <!-- 同一时间可以从池分配的最多连接数量。设置为0时表示无限制。 -->
-        <property name="maxActive" value="30"/>
+        <property name="maxActive" value="100"/>
         <!-- 池里不会被释放的最多空闲连接数量。设置为0时表示无限制。 -->
-        <property name="maxIdle" value="20"/>
+        <property name="maxIdle" value="100"/>
         <!-- 在不新建连接的条件下，池中保持空闲的最少连接数。 -->
         <property name="minIdle" value="3"/>
         <!-- 设置自动回收超时连接 -->
@@ -43,8 +49,18 @@
         <property name="removeAbandonedTimeout" value="200"/>
         <!-- 设置在自动回收超时连接的时候打印连接的超时错误  -->
         <property name="logAbandoned" value="true"/>
-        <!-- 等待超时以毫秒为单位，在抛出异常之前，池等待连接被回收的最长时间（当没有可用连接时）。设置为-1表示无限等待。  -->
-        <property name="maxWait" value="100"/>
+        <!--从连接池获取连接时是否做检测，该检测为执行validationQuery的配置，如下配置，做一次select 1的数据库操作，对性能有一定影响，关闭-->
+        <property name="testOnBorrow" value="false"/>
+        <!--检查空闲连接时是否做检测，行为跟testOnBorrow时一样，建议开启，这样可以保证连接的可达性-->
+        <property name="testWhileIdle" value="true"/>
+        <property name="validationQuery" value="select 1"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <!--检查线程，大于0开启，每隔100S执行一次Eviction，会关闭无效连接，执行上面的select 1做检测-->
+        <property name="timeBetweenEvictionRunsMillis" value="100000"/>
+        <!--上面检查线程的关闭策略，空闲时间超过600S，又或者是已经无效的连接-->
+        <property name="minEvictableIdleTimeMillis" value="600000"/>
+        <!--可以把numTestsPerEvictionRun设置的和maxIdle一样大，不过这样每次检查的数据就会比较多，可能会一定程度上增加数据库压力【可计算控制】-->
+        <property name="numTestsPerEvictionRun" value="100"/>
     </bean>
     <!-- 配置dbcp数据源 end -->
 
@@ -73,4 +89,6 @@
         <property name="dataSource" ref="myDataSource"/>
     </bean>
 
+    <!--  使用annotation定义事务-->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 </beans>
