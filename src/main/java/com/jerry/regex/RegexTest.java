@@ -21,12 +21,8 @@ public class RegexTest {
         Matcher matcher = pattern.matcher(line);
         int groups = matcher.groupCount();
         System.out.println(matcher.groupCount());
-        if (matcher.find()) {
-            for (int i = 0; i <= groups; i++) {
-                System.out.println("Found value {" + i + "} : " + matcher.group(i));
-            }
-        } else {
-            System.out.println("No matches");
+        while (matcher.find()) {
+            System.out.println("Found value : " + matcher.group());
         }
     }
 }
