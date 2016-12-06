@@ -47,7 +47,7 @@ public class SpiderTest {
 
     public static void main(String[] args) {
         //downLoadFileWithUrl("https://www.baidu.com/img/bd_logo1.png");
-        List<String> picUrls = new ArrayList<>();
+        //List<String> picUrls = new ArrayList<>();
         List<String> startUrlList = new ArrayList<>();
         startUrlList.add(START_URL1);
         startUrlList.add(START_URL2);
@@ -84,13 +84,13 @@ public class SpiderTest {
                                 }
                             });
                         }
-                        picUrls.addAll(picUlrs);
+                        //picUrls.addAll(picUlrs);
                     }
                 }
             }
         }
-        System.out.println(picUrls.size());
-        System.out.println(picUrls);
+        //System.out.println(picUrls.size());
+        //System.out.println(picUrls);
 
     }
 
