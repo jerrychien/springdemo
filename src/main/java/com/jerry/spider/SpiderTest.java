@@ -1,7 +1,6 @@
 package com.jerry.spider;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.BufferedReader;
@@ -16,7 +15,12 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,17 +31,70 @@ public class SpiderTest {
 
     private static final String DOWN_DIR = "/Users/jerrychien/Documents/spider/";
 
+    //主帖子地址1
+    private static final String START_URL1 = "http://1024.05ia.co/pw/thread.php?fid=15";
+
+    //主帖子地址2
+    private static final String START_URL2 = "http://1024.05ia.co/pw/thread.php?fid=49";
+
+    //主帖子总的条目
+    private static final String LIST_REGEX = "<h3><a href=\"(htm_data[^>]*?)\"[^>]*?>([^<>]*?)</a>";
+
+    //图片地址
+    private static final String PIC_REGEX = "<img src=\"([^>]*?)\"[^>]*?border=\"0\"[^>]*?>";
+
+    static ExecutorService executorService = Executors.newCachedThreadPool();
+
     public static void main(String[] args) {
         //downLoadFileWithUrl("https://www.baidu.com/img/bd_logo1.png");
-        String content = getContent("http://cuisuqiang.iteye.com/blog/1726173");
-        List<String> urls = getAllPicUrls(content);
-        System.out.println(urls);
-        for (String url : urls) {
-            downLoadFileWithUrl(url);
+        List<String> picUrls = new ArrayList<>();
+        List<String> startUrlList = new ArrayList<>();
+        startUrlList.add(START_URL1);
+        startUrlList.add(START_URL2);
+        for (int i = 2; i <= 2; i++) {
+            startUrlList.add(START_URL1 + "&page=" + i);
+            startUrlList.add(START_URL2 + "&page=" + i);
         }
+        System.out.println(startUrlList);
+        for (String startUrl : startUrlList) {
+            if (!startUrl.startsWith("http")) {
+                startUrl = "http://1024.05ia.co/pw/" + startUrl;
+            }
+            String content = getContent(startUrl);
+            if (StringUtils.isNotBlank(content)) {
+                Map<String, String> urlsMap = getMapByRegex(content, LIST_REGEX);
+                System.out.println(urlsMap);
+                Iterator<Map.Entry<String, String>> iterator = urlsMap.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, String> entry = iterator.next();
+                    String url = entry.getKey();
+                    final String name = entry.getValue();
+                    if (!url.startsWith("http")) {
+                        url = "http://1024.05ia.co/pw/" + url;
+                    }
+                    String detailContent = getContent(url);
+                    if (StringUtils.isNotBlank(detailContent)) {
+                        List<String> picUlrs = getByRegex(detailContent, PIC_REGEX);
+                        System.out.println(picUlrs);
+                        for (final String urrr : picUlrs) {
+                            executorService.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    downLoadFileWithUrl(urrr, name);
+                                }
+                            });
+                        }
+                        picUrls.addAll(picUlrs);
+                    }
+                }
+            }
+        }
+        System.out.println(picUrls.size());
+        System.out.println(picUrls);
+
     }
 
-    public static void downLoadFileWithUrl(String url) {
+    public static void downLoadFileWithUrl(String url, String title) {
         String postFix = ".png";
         if (StringUtils.isNotBlank(url)) {
             int append = url.lastIndexOf("?");
@@ -54,8 +111,10 @@ public class SpiderTest {
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.154 Safari/537.36");
             urlConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            urlConnection.setRequestProperty("Cookie", "_javaeye_cookie_id_=1481006905866674; _javaeye3_session_=BAh7BjoPc2Vzc2lvbl9pZCIlM2JmNTJlYjBkMDFjZDNhOGY3MjI1N2Q0ODg1YThhOWQ%3D--4709175477c6aa258dcbd969621e17d9e0913539; Hm_lvt_e19a8b00cf63f716d774540875007664=1481007219,1481018157; Hm_lpvt_e19a8b00cf63f716d774540875007664=1481018157; dc_tos=ohrcyc; dc_session_id=1481018196725");
+            urlConnection.setRequestProperty("Cookie", "__cfduid=d3519c9e3ad0036ed31a65686be2b38211481039339; aafaf_lastvisit=0%091481039339%09%2Fpw%2Fthread.php%3Ffid%3D15; aafaf_threadlog=%2C15%2C; a0888_pages=1; a0888_times=1");
             urlConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
             InputStream inputStream = urlConnection.getInputStream();
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             byte[] bytes = new byte[1024];
@@ -64,7 +123,7 @@ public class SpiderTest {
                 byteArrayOutputStream.write(bytes, 0, count);
             }
             byteArrayOutputStream.flush();
-            FileOutputStream fileOutputStream = new FileOutputStream(new File(DOWN_DIR + getFileName() + postFix));
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(DOWN_DIR + getFileName(title) + postFix));
             byte resultBytes[] = byteArrayOutputStream.toByteArray();
             fileOutputStream.write(resultBytes);
             fileOutputStream.flush();
@@ -78,9 +137,9 @@ public class SpiderTest {
         }
     }
 
-    public static String getFileName() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        return simpleDateFormat.format(new Date()) + "--" + RandomStringUtils.randomNumeric(4);
+    public static String getFileName(String title) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
+        return title + "--" + simpleDateFormat.format(new Date());
     }
 
     public static String getContent(String urlStr) {
@@ -90,8 +149,10 @@ public class SpiderTest {
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.154 Safari/537.36");
             urlConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            urlConnection.setRequestProperty("Cookie", "_javaeye_cookie_id_=1481006905866674; _javaeye3_session_=BAh7BjoPc2Vzc2lvbl9pZCIlM2JmNTJlYjBkMDFjZDNhOGY3MjI1N2Q0ODg1YThhOWQ%3D--4709175477c6aa258dcbd969621e17d9e0913539; Hm_lvt_e19a8b00cf63f716d774540875007664=1481007219,1481018157; Hm_lpvt_e19a8b00cf63f716d774540875007664=1481018157; dc_tos=ohrcyc; dc_session_id=1481018196725");
+            urlConnection.setRequestProperty("Cookie", "__cfduid=d3519c9e3ad0036ed31a65686be2b38211481039339; aafaf_lastvisit=0%091481039339%09%2Fpw%2Fthread.php%3Ffid%3D15; aafaf_threadlog=%2C15%2C; a0888_pages=1; a0888_times=1");
             urlConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             StringBuilder sb = new StringBuilder();
             String line;
@@ -107,6 +168,26 @@ public class SpiderTest {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static List<String> getByRegex(String content, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        List<String> urls = new ArrayList<>();
+        while (matcher.find()) {
+            urls.add(matcher.group(1));
+        }
+        return urls;
+    }
+
+    public static Map<String, String> getMapByRegex(String content, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        Map<String, String> urls = new HashMap<String, String>();
+        while (matcher.find()) {
+            urls.put(matcher.group(1), matcher.group(2));
+        }
+        return urls;
     }
 
     public static List<String> getAllPicUrls(String content) {
