@@ -38,10 +38,10 @@ public class SpiderTest {
     private static final String START_URL2 = "http://1024.05ia.co/pw/thread.php?fid=49";
 
     //主帖子总的条目
-    private static final String LIST_REGEX = "<h3><a href=\"(htm_data[^>]*?)\"[^>]*?>([^<>]*?)</a>";
+    private static final String LIST_REGEX = "<h3><a href=\"(htm_data[^>]+?)\"[^>]+?>([^<>]+?)</a>";
 
     //图片地址
-    private static final String PIC_REGEX = "<img src=\"([^>]*?)\"[^>]*?border=\"0\"[^>]*?>";
+    private static final String PIC_REGEX = "<img src=\"([^>]+?)\"[^>]+?border=\"0\"[^>]+?>";
 
     static ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -183,7 +183,7 @@ public class SpiderTest {
     public static Map<String, String> getMapByRegex(String content, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(content);
-        Map<String, String> urls = new HashMap<String, String>();
+        Map<String, String> urls = new HashMap<>();
         while (matcher.find()) {
             urls.put(matcher.group(1), matcher.group(2));
         }
