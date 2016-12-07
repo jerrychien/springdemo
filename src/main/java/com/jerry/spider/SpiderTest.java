@@ -37,6 +37,9 @@ public class SpiderTest {
     //主帖子地址2
     private static final String START_URL2 = "http://1024.05ia.co/pw/thread.php?fid=49";
 
+    //相对地址的header
+    private static final String URL_HEADER = "http://1024.05ia.co/pw/";
+
     //主帖子总的条目
     private static final String LIST_REGEX = "<h3><a href=\"(htm_data[^>]+?)\"[^>]+?>([^<>]+?)</a>";
 
@@ -58,7 +61,7 @@ public class SpiderTest {
         System.out.println(startUrlList);
         for (String startUrl : startUrlList) {
             if (!startUrl.startsWith("http")) {
-                startUrl = "http://1024.05ia.co/pw/" + startUrl;
+                startUrl = URL_HEADER + startUrl;
             }
             String content = getContent(startUrl);
             if (StringUtils.isNotBlank(content)) {
@@ -70,7 +73,7 @@ public class SpiderTest {
                     String url = entry.getKey();
                     final String name = entry.getValue();
                     if (!url.startsWith("http")) {
-                        url = "http://1024.05ia.co/pw/" + url;
+                        url = URL_HEADER + url;
                     }
                     String detailContent = getContent(url);
                     if (StringUtils.isNotBlank(detailContent)) {
