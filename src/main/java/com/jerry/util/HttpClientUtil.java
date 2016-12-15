@@ -86,11 +86,12 @@ public class HttpClientUtil {
                 .build();
         httpClient = HttpClients.custom().setConnectionManager(connManager).setRetryHandler(new DefaultHttpRequestRetryHandler()).build();
         defaultHeader = new HashMap<>();
+        //默认使用的header
         defaultHeader.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36");
         defaultHeader.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
         defaultHeader.put("Accept-Encoding", "gzip, deflate, sdch");
         defaultHeader.put("Accept-Language", "zh-CN,zh;q=0.8");
-        //这个需要改变
+        //TODO 这个按照实际情况做替换
         defaultHeader.put("Cookie", "prov=d6aeb86a-ae03-2836-79e4-6f5203c38f1d; __qca=P0-779883152-1481079011901; _ga=GA1.2.1920497864.1481079015; _gat=1; _gat_pageData=1");
     }
 
@@ -122,42 +123,18 @@ public class HttpClientUtil {
     }
 
     /**
-     * 通用的设置header的逻辑
-     *
-     * @param httpRequestBase
-     * @param headers
-     */
-    private static void handleHeader(HttpRequestBase httpRequestBase, Map<String, String> headers) {
-        httpRequestBase.setConfig(requestConfig);
-        if (headers == null) {
-            headers = new HashMap<>(defaultHeader);
-        } else {
-            headers.putAll(defaultHeader);
-        }
-        Iterator<Map.Entry<String, String>> iterator = headers.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, String> entry = iterator.next();
-            httpRequestBase.setHeader(entry.getKey(), entry.getValue());
-        }
-    }
-
-    /**
      * 下载并且存储文件
      *
-     * @param url
-     * @param headers
-     * @param fileDir
-     * @param title
+     * @param url     访问地址
+     * @param headers 请求头，主要是替换cookie值
+     * @param fileDir 文件存储目录
+     * @param title   文件原始名称
      */
     public static void downLoadFile(String url, Map<String, String> headers, String fileDir, String title) {
         Assert.notNull(fileDir, "存储文件不能为空");
-        File file = new File(fileDir);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        File directory = new File(fileDir);
+        if (!directory.exists() && !directory.isDirectory()) {
+            directory.mkdirs();
         }
         HttpGet httpGet = new HttpGet(url);
         handleHeader(httpGet, headers);
@@ -199,7 +176,14 @@ public class HttpClientUtil {
         }
     }
 
-    private static String getFileName(String url, String title) {
+    /**
+     * 根据请求链接截取后缀，并生成文件名
+     *
+     * @param url
+     * @param title
+     * @return
+     */
+    public static String getFileName(String url, String title) {
         String postFix = ".png";
         if (StringUtils.isNotBlank(url)) {
             int append = url.lastIndexOf("?");
@@ -212,6 +196,26 @@ public class HttpClientUtil {
         System.out.println("postFix:" + postFix);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
         return (title == null ? "" : title) + "--" + simpleDateFormat.format(new Date()) + postFix;
+    }
+
+    /**
+     * 通用的设置header的逻辑
+     *
+     * @param httpRequestBase
+     * @param headers
+     */
+    private static void handleHeader(HttpRequestBase httpRequestBase, Map<String, String> headers) {
+        httpRequestBase.setConfig(requestConfig);
+        if (headers == null) {
+            headers = new HashMap<>(defaultHeader);
+        } else {
+            headers.putAll(defaultHeader);
+        }
+        Iterator<Map.Entry<String, String>> iterator = headers.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            httpRequestBase.setHeader(entry.getKey(), entry.getValue());
+        }
     }
 
     public static void main(String[] args) {
