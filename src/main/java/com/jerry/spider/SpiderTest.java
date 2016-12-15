@@ -1,5 +1,6 @@
 package com.jerry.spider;
 
+import com.jerry.util.HttpClientUtil;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.StringUtils;
 
@@ -98,15 +99,7 @@ public class SpiderTest {
     }
 
     public static void downLoadFileWithUrl(String url, String title) {
-        String postFix = ".png";
-        if (StringUtils.isNotBlank(url)) {
-            int append = url.lastIndexOf("?");
-            if (append != -1) {
-                postFix = url.substring(url.lastIndexOf("."), append);
-            } else {
-                postFix = url.substring(url.lastIndexOf("."));
-            }
-        }
+        String postFix = HttpClientUtil.getFileName(url, title);
         System.out.println("postFix:" + postFix);
         try {
             URL url1 = new URL(url);
