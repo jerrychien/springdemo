@@ -1,4 +1,4 @@
-package com.jerry.socket.io;
+package com.jerry.socket.bio;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class Server {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("--检测状态---");
+                        System.out.println("--检测状态客户端连接状态，心跳检测---");
                         for (int i = 0; i < mList.size(); i++) {
                             Socket socket = mList.get(i);
                             try {
@@ -91,7 +91,7 @@ public class Server {
 
         @Override
         public void run() {
-            this.sendMsg("welcome client" + socket.getPort() + "!!!, current count is :" + mList.size(), true);
+            this.sendMsg("welcome client:" + socket.getPort() + "!!!, current count is :" + mList.size(), true);
             while (true) {
                 try {
                     String content = "";
@@ -142,11 +142,12 @@ public class Server {
             if (toAll) {
                 for (Socket tempSocket : mList) {
                     try {
+                        String sendMsg = msg;
                         if (tempSocket == socket) {
-                            msg = "[自己说]" + msg;
+                            sendMsg = "[自己说]" + sendMsg;
                         }
                         PrintWriter pw = new PrintWriter(tempSocket.getOutputStream());
-                        pw.println(msg);
+                        pw.println(sendMsg);
                         pw.flush();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -155,7 +156,6 @@ public class Server {
             } else {
                 printWriter.println(msg);
                 printWriter.flush();
-                printWriter.close();
             }
         }
     }
