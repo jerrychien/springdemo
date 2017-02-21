@@ -13,16 +13,28 @@ import java.lang.reflect.Method;
 public class TestReflect {
     public static void main(String[] args) {
         try {
+            //类装载和连接操作
             String className = "com.jerry.reflect.ReflectClass";
             Class clazz = Class.forName(className);
 
-            //利用反射获取私有构造方法
-            Constructor constructor = clazz.getDeclaredConstructor();
+            Class intclass = int.class;
+            Class longclass = long.class;
+            System.out.println(longclass.getName());
+            System.out.println(intclass == longclass);
+
+            //利用反射获取私有构造方法(不带参数的私有构造方法)
+            //Constructor constructor = clazz.getDeclaredConstructor();
+            //constructor.setAccessible(true);//这个必须
+            //ReflectInterface o = (ReflectInterface) constructor.newInstance();
+
+            //利用反射获取私有构造方法(带参数的私有构造方法)
+            Constructor constructor = clazz.getDeclaredConstructor(Integer.class);
             constructor.setAccessible(true);//这个必须
-            ReflectInterface o = (ReflectInterface) constructor.newInstance();
+            ReflectInterface o = (ReflectInterface) constructor.newInstance(2);
 
             //代码中只定义接口ReflectInterface,具体的实现各自去实现,className从配置文件或者流中读取,做到大大的解耦
-//            ReflectInterface o = (ReflectInterface) clazz.newInstance();
+            //只有public的无参数构造函数才能使用
+            //ReflectInterface o = (ReflectInterface) clazz.newInstance();
 
             //public method
             Method noParamMethod = clazz.getMethod("doPrint");
