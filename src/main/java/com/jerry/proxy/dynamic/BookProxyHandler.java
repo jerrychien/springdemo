@@ -7,6 +7,7 @@ import java.lang.reflect.Proxy;
 /**
  * @author jerrychien
  * @create 2016-09-20 18:18
+ * JDK自带的动态代理的实现，只能实现接口层次的类
  */
 public class BookProxyHandler implements InvocationHandler {
 

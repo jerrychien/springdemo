@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
  * @author jerrychien
  * @create 2016-09-20 16:10
  */
-public class Client {
+public class BookProxyClient {
     public static void main(String[] args) {
         BookFacade bookFacade = new BookFacadeImpl();
         BookProxyHandler myInvoke = new BookProxyHandler(bookFacade);
