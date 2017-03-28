@@ -5,8 +5,12 @@ package com.jerry.proxy.cglibProxy;
  */
 public class CglibTest {
     public static void main(String[] args) {
+//        CglibProxy cglibProxy = new CglibProxy();
+//        Base base = Factory.instance(cglibProxy, Base.class);
+//        base.add();
+
         CglibProxy cglibProxy = new CglibProxy();
-        Base base = Factory.instance(cglibProxy, Base.class);
+        Base base = cglibProxy.instance(Base.class);
         base.add();
     }
 }
