@@ -20,13 +20,13 @@ public class ActivitySlaveEnableTest {
     /**
      * 徒弟绑定日期
      */
-    static Map<String, Date> slaveBindDateMap = new HashMap<>();
+    private static Map<String, Date> slaveBindDateMap = new HashMap<>();
     /**
      * 徒弟最后签到日期
      */
-    static Map<String, Date> slaveSignDateMap = new HashMap<>();
+    private static Map<String, Date> slaveSignDateMap = new HashMap<>();
 
-    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void main(String[] args) throws IOException {
         init();
